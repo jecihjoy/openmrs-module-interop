@@ -112,6 +112,8 @@ public class EncounterObserver extends BaseObserver implements Subscribable<org.
 		for (Obs obs : encounterObservations) {
 			Observation fhirObs = observationTranslator.toFhirResource(obs);
 			fhirObs.getSubject().setIdentifier(buildPatientUpiIdentifier(encounter.getPatient()));
+			fhirObs.addIdentifier(new Identifier().setSystem(InteropConstant.SYSTEM_URL).setValue(obs.getUuid())
+			        .setUse(Identifier.IdentifierUse.OFFICIAL));
 			
 			// provence references
 			List<Resource> resources = ReferencesUtil.resolveProvenceReference(fhirObs.getContained(), encounter);
