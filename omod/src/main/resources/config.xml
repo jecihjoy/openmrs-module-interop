@@ -124,6 +124,11 @@
 		<description>coma separated list of appointments(concept questions)</description>
 		<defaultValue></defaultValue>
 	</globalProperty>
+	<globalProperty>
+		<property>@MODULE_ID@.appointmentTypes</property>
+		<description>coma separated list of appointment types(concept questions)</description>
+		<defaultValue></defaultValue>
+	</globalProperty>
 
 	<globalProperty>
 		<property>@MODULE_ID@.encounterTypes.appointments</property>

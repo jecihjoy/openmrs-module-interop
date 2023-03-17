@@ -118,7 +118,7 @@ public abstract class BaseObserver {
 			}
 			// Publish to enabled connectors
 			if (newInstancePublisher.isEnabled()) {
-				log.info("Publishing resource with ID {} to {}", resource.getId(), publisher.getSimpleName());
+				log.error("Publishing resource with ID {} to {}", resource.getId(), publisher.getSimpleName());
 				newInstancePublisher.publish(fhirContext, resource);
 			}
 		});

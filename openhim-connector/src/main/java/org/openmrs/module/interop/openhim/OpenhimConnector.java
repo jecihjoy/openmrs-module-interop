@@ -40,6 +40,8 @@ public class OpenhimConnector implements Publisher {
 			    OpenhimConfiguration.class);
 			OpenhimClient.postFhirResource(encodeResourceString,
 			    config.getOpenhimServerUrl() + "/" + resource.fhirType().toLowerCase());
+			log.error("TRACK NUMBER OF TIMES OpenhimConnector.publish is called");
+			
 		}
 		catch (Exception e) {
 			log.error("Unable to post fhir resource", e);

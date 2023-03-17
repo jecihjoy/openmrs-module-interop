@@ -31,6 +31,10 @@ public class InteropConstant {
 	
 	public static String APPOINTMENT_CONCEPT_UUID = "interop.appointments";
 	
+	//	public static String APPOINTMENT_TYPE_CONCEPT_UUID = "interop.appointmentTypes";
+	
+	// appntDateConcept:appntTypeConcept  ppntDateConcept:appntTypeConcept ppntDateConcept:appntTypeConcept
+	
 	public static String ALLERGY_PROCESSOR_ENCOUNTER_TYPE_UUIDS = "interop.encounterTypes.allergyIntolerance";
 	
 	public static String ALLERGY_CONCEPT_UUID = "interop.allergyIntolerance";

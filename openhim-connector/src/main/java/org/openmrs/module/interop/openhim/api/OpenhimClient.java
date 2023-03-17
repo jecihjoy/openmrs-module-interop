@@ -18,6 +18,8 @@ import org.apache.http.impl.client.HttpClients;
 public class OpenhimClient {
 	
 	public static void postFhirResource(String fhirResource, String openHimUrl) throws Exception {
+		System.out.println("TRACK NUMBER OF TIMES OpenhimClient.postFhirResource is called");
+		
 		HttpClient httpClient = HttpClients.createDefault();
 		HttpPost httpPost = new HttpPost(openHimUrl);
 		

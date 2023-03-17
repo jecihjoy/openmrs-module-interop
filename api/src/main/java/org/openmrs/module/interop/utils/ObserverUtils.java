@@ -23,7 +23,7 @@ import java.util.List;
 public class ObserverUtils {
 	
 	public static List<Event.Action> defaultActions() {
-		return Arrays.asList(Event.Action.UPDATED, Event.Action.CREATED);
+		return Arrays.asList(Event.Action.UPDATED);
 	}
 	
 	public static List<Event.Action> voidableEntityActions() {
