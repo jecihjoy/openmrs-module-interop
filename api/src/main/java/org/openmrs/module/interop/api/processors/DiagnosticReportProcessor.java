@@ -20,6 +20,7 @@ import org.openmrs.module.fhir2.api.translators.ObservationReferenceTranslator;
 import org.openmrs.module.interop.InteropConstant;
 import org.openmrs.module.interop.api.InteropProcessor;
 import org.openmrs.module.interop.api.processors.translators.DiagnosticReportTranslator;
+import org.openmrs.module.interop.utils.ObserverUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -77,8 +78,6 @@ public class DiagnosticReportProcessor implements InteropProcessor<Encounter> {
 		if (!resultObs.isEmpty()) {
 			for (Obs obs : resultObs) {
 				Reference observation = observationReferenceTranslator.toFhirResource(obs);
-				observation.setIdentifier(new Identifier().setSystem(InteropConstant.SYSTEM_URL).setValue(obs.getUuid())
-				        .setUse(Identifier.IdentifierUse.OFFICIAL));
 				diagnosticReport.addResult(observation);
 			}
 		} else {

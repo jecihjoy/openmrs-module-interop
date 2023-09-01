@@ -20,10 +20,13 @@ public class OpenhimClient {
 	public static void postFhirResource(String fhirResource, String openHimUrl) throws Exception {
 		HttpClient httpClient = HttpClients.createDefault();
 		HttpPost httpPost = new HttpPost(openHimUrl);
+		String token = "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IkU0MUU1QUM5RUIxNTlBMjc1NTY4NjM0MzIxMUJDQzAzMDMyMEUzMTZSUzI1NiIsIng1dCI6IjVCNWF5ZXNWbWlkVmFHTkRJUnZNQXdNZzR4WSIsInR5cCI6ImF0K2p3dCJ9.eyJpc3MiOiJodHRwczovL2RocGlkZW50aXR5c3RhZ2luZ2FwaS5oZWFsdGguZ28ua2UiLCJuYmYiOjE2OTM1NTk1MjIsImlhdCI6MTY5MzU1OTUyMiwiZXhwIjoxNjkzNjQ1OTIyLCJhdWQiOlsiREhQLkdhdGV3YXkiLCJESFAuUGFydG5lcnMiXSwic2NvcGUiOlsiREhQLkdhdGV3YXkiLCJESFAuUGFydG5lcnMiXSwiY2xpZW50X2lkIjoicGFydG5lci50ZXN0LmNsaWVudCIsImp0aSI6IjQxMDhBOEY2RkZDRTlFN0Q1M0ZGQkI0OUQzMDU1Q0VEIn0.T9go41MWh0cgoaX3YQDQqag9dUvbYEzYfaKvvs63QEMQ8iU72GtvaeoOhqS7Kzq-84ooaB73Lya4oM3Ua0kxk_jQ4HkMnG7o5NpYeMYXealoj2hTbCkgGta1XLVIter9Ozy7YAFMAaPPP_dBGb4kZQI9vWjSfyJh5ib_Hjq_J48OszhZOr3s9EMIXsTyL8SkzcjjY2rjJY05uaT0d3ev9RKOHC_Kc-dA-YkCE7i5c5TqBnvjU64iW3wcAWkM8LDvRDc9NZ7Pvw2mG2dTMf5vQ-uVNCswSolkoaPBJcGnTE0AHx9I1Ss1d2TekrIZcOI530yZOiGmj9UVgawTaY3edQ";
 		
 		StringEntity fhirResourceEntity = new StringEntity(fhirResource);
 		httpPost.setEntity(fhirResourceEntity);
-		httpPost.setHeader("Content-type", "application/fhir+json");
+		httpPost.setHeader("Content-type", "application/json");
+		httpPost.setHeader("Authorization", token);
+		System.out.println("TOKE ++++++++ " + token);
 		
 		HttpResponse response = httpClient.execute(httpPost);
 		int statusCode = response.getStatusLine().getStatusCode();

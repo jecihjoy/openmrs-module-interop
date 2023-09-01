@@ -20,6 +20,7 @@ import org.openmrs.module.fhir2.api.translators.ConceptTranslator;
 import org.openmrs.module.interop.InteropConstant;
 import org.openmrs.module.interop.api.InteropProcessor;
 import org.openmrs.module.interop.api.processors.translators.AppointmentObsTranslator;
+import org.openmrs.module.interop.utils.ObserverUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -75,38 +76,39 @@ public class AppointmentProcessor implements InteropProcessor<Encounter> {
 				if (validateConceptQuestions(obs)) {
 					appointmentObs.add(obs);
 				}
-				if (validateAppointmentTypeQuestions(obs)) {
-					appointmentTypeObs.add(obs);
-				}
-				if (validateNonCodedAppointmentQuestions(obs)) {
-					nonCodedAppointmentObs.add(obs);
-				}
+				//				if (validateAppointmentTypeQuestions(obs)) {
+				//					appointmentTypeObs.add(obs);
+				//				}
+				//				if (validateNonCodedAppointmentQuestions(obs)) {
+				//					nonCodedAppointmentObs.add(obs);
+				//				}
 				
 			});
 		}
 		
 		List<Appointment> appointments = new ArrayList<>();
 		
-		if (!appointmentTypeObs.isEmpty()) {
-			appointmentTypeObs.forEach(type -> appointmentObs.forEach(dateOb -> {
-				if (dateOb.getConcept().getUuid().equals(appointmentMapping.get(type.getConcept().getUuid()))) {
-					Appointment appointment = appointmentObsTranslator.toFhirResource(dateOb);
-					appointment.addServiceType(conceptTranslator.toFhirResource(type.getValueCoded()));
-					appointments.add(appointment);
-				}
-			}));
-		}
-		
-		if (!nonCodedAppointmentObs.isEmpty()) {
-			nonCodedAppointmentObs.forEach(ob -> {
+		if (!appointmentObs.isEmpty()) {
+			appointmentObs.forEach(ob -> {
 				Appointment appointment = appointmentObsTranslator.toFhirResource(ob);
 				appointment.addServiceType(new CodeableConcept()
-				        .addCoding(new Coding("", nonCodedAppointmentMapping().get(ob.getConcept().getUuid()),
-				                nonCodedAppointmentMapping().get(ob.getConcept().getUuid()))));
-				
+				        .addCoding(new Coding(ObserverUtils.getSystemUrlConfiguration(), "20672", "Follow Up Appointment")));
 				appointments.add(appointment);
 			});
 		}
+		/**
+		 * if (!appointmentTypeObs.isEmpty()) { appointmentTypeObs.forEach(type ->
+		 * appointmentObs.forEach(dateOb -> { if
+		 * (dateOb.getConcept().getUuid().equals(appointmentMapping.get(type.getConcept().getUuid()))) {
+		 * Appointment appointment = appointmentObsTranslator.toFhirResource(dateOb);
+		 * appointment.addServiceType(conceptTranslator.toFhirResource(type.getValueCoded()));
+		 * appointments.add(appointment); } })); } if (!nonCodedAppointmentObs.isEmpty()) {
+		 * nonCodedAppointmentObs.forEach(ob -> { Appointment appointment =
+		 * appointmentObsTranslator.toFhirResource(ob); appointment.addServiceType(new CodeableConcept()
+		 * .addCoding(new Coding("", nonCodedAppointmentMapping().get(ob.getConcept().getUuid()),
+		 * nonCodedAppointmentMapping().get(ob.getConcept().getUuid())))); appointments.add(appointment);
+		 * }); }
+		 */
 		
 		return appointments;
 	}
