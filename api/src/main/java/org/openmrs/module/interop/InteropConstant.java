@@ -25,9 +25,11 @@ public class InteropConstant {
 	
 	public static String CONDITIONS_CONCEPT_UUID = "interop.conditions";
 	
-	public static String CONDITION_BROKER_ENCOUNTER_TYPE_UUIDS = "interop.encounterTypes.enabled";
+	public static String CONDITION_ENCOUNTER_TYPE_UUIDS = "interop.encounterTypes.enabled";
 	
 	public static String SYSTEM_URL = "interop.system.url.configuration";
+	
+	public static String HW_SYSTEM_URL = "interop.system.hw.url.configuration";
 	
 	public static String CR_SYSTEM_URL = "interop.cr.system.url.configuration";
 	
@@ -88,6 +90,10 @@ public class InteropConstant {
 	public static String COMPLAINTS_PROCESSOR_ENCOUNTER_TYPE_UUIDS = "interop.encounterTypes.complaints";
 	
 	public static String COMPLAINTS_CONCEPT_UUIDS = "interop.complaintsConcepts";
+	
+	public static String EXAM_FINDINGS_ENCOUNTER_TYPE_UUIDS = "interop.encounterTypes.examFindings";
+	
+	public static String EXAM_FINDINGS_CONCEPT_UUIDS = "interop.examFindingsConcepts";
 	
 	public static final String GP_SHR_TOKEN = "interop.shr.token";
 	

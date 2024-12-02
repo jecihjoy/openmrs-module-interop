@@ -105,6 +105,24 @@
 	</globalProperty>
 
 	<globalProperty>
+		<property>interop.examFindingsConcepts</property>
+		<description>coma separated list of conditions(concept questions)</description>
+		<defaultValue></defaultValue>
+	</globalProperty>
+
+	<globalProperty>
+		<property>interop.encounterTypes.examFindings</property>
+		<description>Encounter types with examination obs</description>
+		<defaultValue></defaultValue>
+	</globalProperty>
+
+	<globalProperty>
+		<property>interop.system.hw.url.configuration</property>
+		<description>Health worker system url</description>
+		<defaultValue></defaultValue>
+	</globalProperty>
+
+	<globalProperty>
 		<property>@MODULE_ID@.mflcode.locationAttributeTypeUuid</property>
 		<description>Facility MFL code location attribute type UUID</description>
 		<defaultValue>8a845a89-6aa5-4111-81d3-0af31c45c002</defaultValue>
