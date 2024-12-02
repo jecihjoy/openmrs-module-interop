@@ -10,6 +10,8 @@
 package org.openmrs.module.interop.api.processors;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Condition;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
@@ -24,9 +26,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
+@Component("interop.conditionProcessor")
 public class ConditionProcessor implements InteropProcessor<Encounter> {
 	
 	@Autowired
@@ -40,7 +44,7 @@ public class ConditionProcessor implements InteropProcessor<Encounter> {
 	public List<String> encounterTypes() {
 		
 		return Arrays.asList(Context.getAdministrationService()
-		        .getGlobalPropertyValue(InteropConstant.CONDITION_BROKER_ENCOUNTER_TYPE_UUIDS, "").split(","));
+		        .getGlobalPropertyValue(InteropConstant.CONDITION_ENCOUNTER_TYPE_UUIDS, "").split(","));
 	}
 	
 	@Override
@@ -73,6 +77,9 @@ public class ConditionProcessor implements InteropProcessor<Encounter> {
 		if (!conditionsObs.isEmpty()) {
 			conditionsObs.forEach(obs -> {
 				Condition condition = conditionObsTranslator.toFhirResource(obs);
+				condition.setCategory(Collections.singletonList(
+				    new CodeableConcept().addCoding(new Coding("http://terminology.hl7.org/CodeSystem/observation-category",
+				            "problem-list-item", "Problem list item"))));
 				conditions.add(condition);
 			});
 		}
