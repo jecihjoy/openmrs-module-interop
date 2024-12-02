@@ -49,7 +49,7 @@ public class ReferencesUtil {
 	}
 	
 	public static Reference buildKhmflLocationReference(@NotNull Location location) {
-		Reference locationRef = new Reference(ObserverUtils.getKhmflSystemUrlConfiguration()).setType("Organization");
+		Reference locationRef = new Reference().setType("Organization");
 		if (ObserverUtils.getMFLCODELocationAttributeType() != null) {
 			String mflCodeUuid = ObserverUtils.getMFLCODELocationAttributeType().getUuid();
 			List<LocationAttribute> mflCodeAttribute = location.getActiveAttributes().stream()
@@ -92,8 +92,7 @@ public class ReferencesUtil {
 	
 	public static Identifier buildProviderIdentifier(@NotNull Encounter encounter) {
 		Identifier identifier = new Identifier();
-		identifier.setSystem(ObserverUtils.getSystemUrlConfiguration());
-		identifier.setUse(Identifier.IdentifierUse.OFFICIAL);
+		identifier.setSystem(ObserverUtils.getHWRSystemUrlConfiguration());
 		if (!encounter.getEncounterProviders().isEmpty()) {
 			Provider provider = encounter.getEncounterProviders().iterator().next().getProvider();
 			String providerNationalId = providerUniversalIdentifier(provider);
@@ -137,13 +136,14 @@ public class ReferencesUtil {
 	}
 	
 	public static Reference buildPatientReference(@NotNull Patient patient) {
-		// Reference reference = new Reference("Patient/" + getPatientNUPI(patient)).setType("Patient");
-		Reference reference = new Reference("Patient/" + getPatientCRID(patient)).setType("Patient");
+		Reference reference = new Reference();
 		Identifier identifier = new Identifier();
 		identifier.setSystem(ObserverUtils.getCRSystemUrlConfiguration());
-		identifier.setUse(Identifier.IdentifierUse.OFFICIAL);
-		// identifier.setValue(getPatientNUPI(patient));
-		identifier.setValue(getPatientCRID(patient));
+		if (getPatientCRID(patient) == null || getPatientCRID(patient).isEmpty()) {
+			identifier.setValue("");
+		} else {
+			identifier.setValue(getPatientCRID(patient));
+		}
 		reference.setIdentifier(identifier);
 		return reference;
 	}
