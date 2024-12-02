@@ -74,4 +74,8 @@ public class ObserverUtils {
 		return Context.getAdministrationService().getGlobalPropertyValue(InteropConstant.KMHFL_SYSTEM_URL, "");
 	}
 	
+	public static String getHWRSystemUrlConfiguration() {
+		return Context.getAdministrationService().getGlobalPropertyValue(InteropConstant.HW_SYSTEM_URL, "");
+	}
+	
 }

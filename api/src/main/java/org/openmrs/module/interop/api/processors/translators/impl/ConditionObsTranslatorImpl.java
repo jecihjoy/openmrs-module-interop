@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.interop.api.processors.translators.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Condition;
@@ -28,6 +29,8 @@ import java.util.Date;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
+@Slf4j
+@Component("interop.conditions")
 public class ConditionObsTranslatorImpl implements ConditionObsTranslator {
 	
 	@Autowired
@@ -51,13 +54,11 @@ public class ConditionObsTranslatorImpl implements ConditionObsTranslator {
 		fhirCondition.setClinicalStatus(new CodeableConcept()
 		        .addCoding(new Coding("http://terminology.hl7.org/CodeSystem/condition-clinical", "active", "ACTIVE")));
 		
-		fhirCondition.setVerificationStatus(new CodeableConcept().addCoding(
-		    new Coding("http://terminology.hl7.org/CodeSystem/condition-ver-status", "provisional", "PROVISIONAL")));
-		Coding category = new Coding("http://hl7.org/fhir/ValueSet/condition-category", "conditions", "Conditions");
+		Coding category = new Coding("http://hl7.org/fhir/ValueSet/condition-category", "problem-list-item", "Problem list");
 		fhirCondition.addCategory(new CodeableConcept().addCoding(category));
 		fhirCondition.setRecordedDate(obs.getDateCreated());
 		fhirCondition.getMeta().setLastUpdated(this.getLastUpdated(obs));
-
+		
 		Identifier identifier = new Identifier();
 		identifier.setUse(Identifier.IdentifierUse.OFFICIAL);
 		identifier.setSystem("https://shr.kenya-hie.health");
