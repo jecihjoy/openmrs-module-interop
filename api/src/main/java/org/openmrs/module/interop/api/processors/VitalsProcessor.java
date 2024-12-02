@@ -28,6 +28,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -64,22 +65,27 @@ public class VitalsProcessor implements InteropProcessor<Encounter> {
 		List<Obs> encounterObs = new ArrayList<>(encounter.getAllObs());
 		List<Observation> vitals = new ArrayList<>();
 		
-		if (!encounterObs.isEmpty()) {
-			if (validateEncounterType(encounter)) {
-				for (Obs obs : encounterObs) {
-					Observation observation = observationTranslator.toFhirResource(obs);
-					observation.setSubject(ReferencesUtil.buildPatientReference(encounter.getPatient()));
-					observation.addCategory(new CodeableConcept().addCoding(new Coding(
-					        "http://terminology.hl7.org/CodeSystem/observation-category", "vital-signs", "Vital Signs")));
-					Identifier identifier = new Identifier();
-					identifier.setUse(Identifier.IdentifierUse.OFFICIAL);
-					identifier.setSystem("https://shr.kenya-hie.health");
-					identifier.setValue(obs.getUuid());
-					observation.addIdentifier(identifier);
-					observation.addPerformer(practitionerReferenceTranslator.toFhirResource(obs.getCreator()));
-					vitals.add(observation);
+		List<Obs> vitalObs = new ArrayList<>();
+		if (validateEncounterType(encounter)) {
+			encounterObs.forEach(obs -> {
+				if (validateConceptQuestions(obs)) {
+					vitalObs.add(obs);
 				}
-			}
+			});
+		}
+		
+		for (Obs obs : vitalObs) {
+			Observation observation = observationTranslator.toFhirResource(obs);
+			observation.setSubject(ReferencesUtil.buildPatientReference(encounter.getPatient()));
+			observation.setCategory(Collections.singletonList(new CodeableConcept().addCoding(
+			    new Coding("http://terminology.hl7.org/CodeSystem/observation-category", "vital-signs", "Vital Signs"))));
+			Identifier identifier = new Identifier();
+			identifier.setUse(Identifier.IdentifierUse.OFFICIAL);
+			identifier.setSystem("https://shr.kenya-hie.health");
+			identifier.setValue(obs.getUuid());
+			observation.addIdentifier(identifier);
+			observation.addPerformer(practitionerReferenceTranslator.toFhirResource(obs.getCreator()));
+			vitals.add(observation);
 		}
 		
 		return vitals;
