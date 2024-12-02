@@ -32,8 +32,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-@Setter
-@Component("interop.patientObserver")
 public class PatientObserver extends BaseObserver implements Subscribable<Patient> {
 	
 	@Autowired
