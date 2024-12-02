@@ -9,7 +9,8 @@
  */
 package org.openmrs.module.interop.api.observers;
 
-import lombok.extern.slf4j.Slf4j;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
 import org.openmrs.ConditionVerificationStatus;
 import org.openmrs.Diagnosis;
 import org.openmrs.Patient;
@@ -22,17 +23,13 @@ import org.openmrs.module.interop.api.processors.translators.InteropConditionTra
 import org.openmrs.module.interop.utils.ObserverUtils;
 import org.openmrs.module.interop.utils.ReferencesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.jms.Message;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Slf4j
-@Component("interop.diagnosisCreationObserver")
 public class DiagnosisObserver extends BaseObserver implements Subscribable<Diagnosis> {
 	
-	@Autowired
 	private InteropConditionTranslator<Diagnosis> diagnosisTranslator;
 	
 	@Override
@@ -57,6 +54,13 @@ public class DiagnosisObserver extends BaseObserver implements Subscribable<Diag
 			return;
 		org.hl7.fhir.r4.model.Condition fhirCondition = diagnosisTranslator.toFhirResource(diagnosis);
 		if (fhirCondition != null) {
+			if (diagnosis.getRank().equals(new Integer(1))) {
+				fhirCondition.setVerificationStatus(new CodeableConcept().addCoding(
+				    new Coding("http://terminology.hl7.org/CodeSystem/condition-ver-status", "provisional", "Provisional")));
+			} else if (diagnosis.getRank().equals(new Integer(2))) {
+				fhirCondition.setVerificationStatus(new CodeableConcept().addCoding(
+				    new Coding("http://terminology.hl7.org/CodeSystem/condition-ver-status", "confirmed", "Confirmed")));
+			}
 			String reference = fhirCondition.getSubject().getReference();
 			String arr[] = reference.split("/");
 			if (arr.length == 2) {
