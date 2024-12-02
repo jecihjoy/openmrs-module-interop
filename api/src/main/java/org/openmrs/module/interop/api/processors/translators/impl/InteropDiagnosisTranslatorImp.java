@@ -51,6 +51,13 @@ public class InteropDiagnosisTranslatorImp implements InteropConditionTranslator
 			    new CodeableConcept().addCoding(new Coding("http://terminology.hl7.org/CodeSystem/condition-ver-status",
 			            diagnosis.getCertainty().toString().toLowerCase(), diagnosis.getCertainty().toString())));
 		}
+		if (diagnosis.getRank().equals(1)) {
+			fhirCondition.setVerificationStatus(new CodeableConcept().addCoding(
+			    new Coding("http://terminology.hl7.org/CodeSystem/condition-ver-status", "provisional", "Provisional")));
+		} else if (diagnosis.getRank().equals(2)) {
+			fhirCondition.setVerificationStatus(new CodeableConcept().addCoding(
+			    new Coding("http://terminology.hl7.org/CodeSystem/condition-ver-status", "confirmed", "Confirmed")));
+		}
 		Coding category = new Coding("http://hl7.org/fhir/ValueSet/condition-category", "encounter-diagnosis",
 		        "Encounter Diagnosis");
 		fhirCondition.setCategory(Collections.singletonList(new CodeableConcept().addCoding(category)));

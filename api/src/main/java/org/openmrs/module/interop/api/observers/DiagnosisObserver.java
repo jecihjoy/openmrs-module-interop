@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.interop.api.observers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.openmrs.ConditionVerificationStatus;
@@ -22,12 +23,12 @@ import org.openmrs.module.interop.api.metadata.EventMetadata;
 import org.openmrs.module.interop.api.processors.translators.InteropConditionTranslator;
 import org.openmrs.module.interop.utils.ObserverUtils;
 import org.openmrs.module.interop.utils.ReferencesUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.jms.Message;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@Slf4j
 public class DiagnosisObserver extends BaseObserver implements Subscribable<Diagnosis> {
 	
 	private InteropConditionTranslator<Diagnosis> diagnosisTranslator;
