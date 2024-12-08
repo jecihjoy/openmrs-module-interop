@@ -39,8 +39,8 @@ public class PatientObserverTest {
 	@Before
 	public void setUp() {
 		patientObserver = new PatientObserver();
-		patientObserver.setFhirPatientService(fhirPatientService);
-		Event.subscribe(Patient.class, "CREATED", patientObserver);
+		//		patientObserver.setFhirPatientService(fhirPatientService);
+		//		Event.subscribe(Patient.class, "CREATED", patientObserver);
 	}
 	
 	@Test

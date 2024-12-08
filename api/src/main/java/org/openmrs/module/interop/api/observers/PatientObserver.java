@@ -34,7 +34,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class PatientObserver extends BaseObserver implements Subscribable<Patient> {
 	
-	@Autowired
 	private FhirPatientService fhirPatientService;
 	
 	@Override
